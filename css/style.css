@@ -1505,16 +1505,16 @@ footer > span {
 /* DESCRIPTION */
 
 .script-card-description {
-    display: -webkit-box;
+    display: block;
     margin: 0;
 
-    overflow: hidden;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 3;
+    overflow: visible;
+    -webkit-line-clamp: unset;
 
     color: #a9a3b0;
     font-size: 13px;
     line-height: 1.65;
+    overflow-wrap: anywhere;
 }
 
 /* TAGS */
