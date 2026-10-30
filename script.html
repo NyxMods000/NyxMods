@@ -1,0 +1,60 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Proyecto | NyxMods</title>
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/script-details.css">
+</head>
+
+<body>
+    <header class="navbar">
+        <a href="index.html" class="logo">NyxMods</a>
+
+        <nav>
+            <a href="index.html">Inicio</a>
+            <a href="index.html#explore">Explorar</a>
+        </nav>
+    </header>
+
+    <main class="details-container">
+        <a href="index.html#explore" class="back-link">
+            ← Volver al catálogo
+        </a>
+
+        <div id="detailsLoading">
+            Cargando proyecto...
+        </div>
+
+        <section id="projectDetails" hidden>
+            <img id="projectImage" class="details-image" alt="">
+
+            <div class="details-content">
+                <div id="projectTags" class="script-tags"></div>
+
+                <h1 id="projectTitle"></h1>
+
+                <p id="projectDescription"></p>
+
+                <button id="copyLoader" class="copy-script-btn">
+                    Copiar script
+                </button>
+            </div>
+        </section>
+
+        <p id="detailsError" hidden>
+            No se pudo cargar este proyecto.
+        </p>
+    </main>
+
+    <footer>
+        <p>© <span id="year"></span> NyxMods Universal.</p>
+    </footer>
+
+    <script src="js/script-details.js"></script>
+</body>
+</html>
