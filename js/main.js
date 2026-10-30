@@ -1,4 +1,9 @@
 
+/* =========================================
+   NYXMODS - PROJECT CATALOG
+   GitHub Dynamic Loader
+========================================= */
+
 const CONFIG = {
     owner: "nyxmods000",
     repo: "NyxMods",
@@ -19,26 +24,35 @@ const noResults = document.getElementById("noResults");
 
 let projects = [];
 let activeFilter = "all";
+let isLoading = false;
 
-// Categorías permitidas
+
+/* =========================================
+   CATEGORIES
+========================================= */
+
 const CATEGORIES = {
-    "universal": {
+    universal: {
         filter: "universal",
         label: "Universal"
     },
 
-    "juegos": {
+    juegos: {
         filter: "games",
         label: "Juegos"
     },
 
-    "herramientas": {
+    herramientas: {
         filter: "tools",
         label: "Herramientas"
     }
 };
 
-// Inicialización
+
+/* =========================================
+   INITIALIZATION
+========================================= */
+
 document.addEventListener("DOMContentLoaded", async () => {
     const year = document.getElementById("year");
 
@@ -50,23 +64,35 @@ document.addEventListener("DOMContentLoaded", async () => {
     await loadProjects();
 });
 
-// Construir URL de archivos
+
+/* =========================================
+   GITHUB FILE URL
+========================================= */
+
 function getFileURL(folder, filename) {
     return `${RAW_URL}/${CONFIG.folder}/${encodeURIComponent(folder)}/${filename}`;
 }
 
-// Obtener contenido de un archivo
+
+/* =========================================
+   FETCH TEXT
+========================================= */
+
 async function getText(url) {
     const response = await fetch(url);
 
     if (!response.ok) {
-        throw new Error(`Error HTTP ${response.status}: ${url}`);
+        throw new Error(`HTTP ${response.status}: ${url}`);
     }
 
     return response.text();
 }
 
-// Cargar información de un proyecto
+
+/* =========================================
+   LOAD PROJECT
+========================================= */
+
 async function loadProject(folder) {
     const [
         title,
@@ -82,10 +108,8 @@ async function loadProject(folder) {
         getText(getFileURL(folder, "loader.lua"))
     ]);
 
-    const categoryName = category.trim();
-    const normalizedCategory = categoryName.toLowerCase();
-
-    const categoryData = CATEGORIES[normalizedCategory];
+    const categoryName = category.trim().toLowerCase();
+    const categoryData = CATEGORIES[categoryName];
 
     if (!categoryData) {
         throw new Error(
@@ -109,8 +133,16 @@ async function loadProject(folder) {
     };
 }
 
-// Obtener todos los proyectos de GitHub
+
+/* =========================================
+   LOAD ALL PROJECTS
+========================================= */
+
 async function loadProjects() {
+    if (isLoading) return;
+
+    isLoading = true;
+
     try {
         if (grid) {
             grid.textContent = "Cargando proyectos...";
@@ -125,6 +157,10 @@ async function loadProjects() {
         }
 
         const directories = await response.json();
+
+        if (!Array.isArray(directories)) {
+            throw new Error("Respuesta inesperada de GitHub.");
+        }
 
         const folders = directories.filter(item =>
             item.type === "dir"
@@ -164,10 +200,17 @@ async function loadProjects() {
         if (noResults) {
             noResults.hidden = true;
         }
+
+    } finally {
+        isLoading = false;
     }
 }
 
-// Crear tarjeta de proyecto
+
+/* =========================================
+   CREATE PROJECT CARD
+========================================= */
+
 function createProjectCard(project) {
     const card = document.createElement("article");
 
@@ -181,71 +224,151 @@ function createProjectCard(project) {
         ...project.tags
     ].join(" ").toLowerCase();
 
-    // Imagen
+
+    /* IMAGE BANNER */
+
+    const banner = document.createElement("div");
+    banner.className = "script-card-banner";
+
     const image = document.createElement("img");
 
-    image.src = getFileURL(project.folder, "target-image.png");
+    image.src = getFileURL(
+        project.folder,
+        "target-image.png"
+    );
+
     image.alt = project.title;
     image.className = "script-card-image";
     image.loading = "lazy";
 
     image.onerror = () => {
         image.remove();
+        banner.classList.add("no-image");
     };
 
-    // Contenido
-    const content = document.createElement("div");
-    content.className = "script-card-content";
 
-    // Categoría
+    /* IMAGE OVERLAY */
+
+    const overlay = document.createElement("div");
+    overlay.className = "script-card-overlay";
+
+
+    /* CATEGORY */
+
     const category = document.createElement("span");
 
     category.className = "script-category-badge";
     category.textContent = project.categoryName;
 
-    // Título
+
+    /* STATUS */
+
+    const status = document.createElement("span");
+
+    status.className = "script-status-badge";
+
+    const statusDot = document.createElement("span");
+
+    status.append(statusDot, document.createTextNode(" DISPONIBLE"));
+
+
+    banner.append(
+        image,
+        overlay,
+        category,
+        status
+    );
+
+
+    /* CONTENT */
+
+    const content = document.createElement("div");
+
+    content.className = "script-card-content";
+
+
+    /* HEADING */
+
+    const heading = document.createElement("div");
+
+    heading.className = "script-card-heading";
+
     const title = document.createElement("h3");
 
     title.textContent = project.title;
 
-    // Descripción
+    heading.appendChild(title);
+
+
+    /* DESCRIPTION */
+
     const description = document.createElement("p");
 
     description.textContent = project.description;
 
-    // Etiquetas
-    const tags = document.createElement("div");
 
-    tags.className = "script-tags";
+    content.append(
+        heading,
+        description
+    );
 
-    project.tags.forEach(tag => {
-        const element = document.createElement("span");
 
-        element.className = "script-tag";
-        element.textContent = tag;
+    /* TAGS */
 
-        tags.appendChild(element);
-    });
+    if (project.tags.length > 0) {
+        const tags = document.createElement("div");
 
-    // Botones
+        tags.className = "script-tags";
+
+        project.tags.forEach(tag => {
+            const element = document.createElement("span");
+
+            element.className = "script-tag";
+            element.textContent = tag;
+
+            tags.appendChild(element);
+        });
+
+        content.appendChild(tags);
+    }
+
+
+    /* DIVIDER */
+
+    const divider = document.createElement("div");
+
+    divider.className = "script-card-divider";
+
+
+    /* ACTIONS */
+
     const actions = document.createElement("div");
 
     actions.className = "script-actions";
 
-    // Copiar loader
+
+    /* COPY BUTTON */
+
     const copyButton = document.createElement("button");
 
     copyButton.className = "copy-script-btn";
+    copyButton.type = "button";
     copyButton.textContent = "Copiar script";
 
     copyButton.addEventListener("click", async () => {
         try {
+            if (!navigator.clipboard?.writeText) {
+                throw new Error("Clipboard API no disponible.");
+            }
+
             await navigator.clipboard.writeText(project.loader);
 
             copyButton.textContent = "¡Copiado!";
+            copyButton.classList.add("copied");
 
             setTimeout(() => {
                 copyButton.textContent = "Copiar script";
+                copyButton.classList.remove("copied");
             }, 1800);
 
         } catch (error) {
@@ -259,7 +382,9 @@ function createProjectCard(project) {
         }
     });
 
-    // Más información
+
+    /* MORE INFORMATION */
+
     const infoLink = document.createElement("a");
 
     infoLink.className = "more-info-btn";
@@ -268,23 +393,38 @@ function createProjectCard(project) {
     infoLink.href =
         `script.html?id=${encodeURIComponent(project.folder)}`;
 
-    // Construcción
-    actions.append(copyButton, infoLink);
+    const arrow = document.createElement("span");
+
+    arrow.textContent = "↗";
+
+    infoLink.appendChild(arrow);
+
+
+    /* BUILD ACTIONS */
+
+    actions.append(
+        copyButton,
+        infoLink
+    );
 
     content.append(
-        category,
-        title,
-        description,
-        tags,
+        divider,
         actions
     );
 
-    card.append(image, content);
+    card.append(
+        banner,
+        content
+    );
 
     return card;
 }
 
-// Mostrar proyectos
+
+/* =========================================
+   RENDER PROJECTS
+========================================= */
+
 function renderProjects() {
     if (!grid) return;
 
@@ -299,7 +439,11 @@ function renderProjects() {
     filterProjects();
 }
 
-// Configurar filtros
+
+/* =========================================
+   FILTER SETUP
+========================================= */
+
 function setupFilters() {
     document.querySelectorAll("[data-filter]").forEach(button => {
         button.addEventListener("click", () => {
@@ -316,17 +460,24 @@ function setupFilters() {
         });
     });
 
-    searchInput?.addEventListener("input", filterProjects);
+    searchInput?.addEventListener(
+        "input",
+        filterProjects
+    );
 }
 
-// Buscar y filtrar proyectos
+
+/* =========================================
+   SEARCH AND FILTER
+========================================= */
+
 function filterProjects() {
     const query =
         searchInput?.value.toLowerCase().trim() || "";
 
     let visible = 0;
 
-    document.querySelectorAll(".script-card").forEach(card => {
+    document.querySelectorAll("#scriptGrid .script-card").forEach(card => {
         const matchesFilter =
             activeFilter === "all" ||
             card.dataset.category === activeFilter;
@@ -334,7 +485,8 @@ function filterProjects() {
         const matchesSearch =
             card.dataset.search.includes(query);
 
-        const show = matchesFilter && matchesSearch;
+        const show =
+            matchesFilter && matchesSearch;
 
         card.hidden = !show;
 
@@ -343,10 +495,16 @@ function filterProjects() {
         }
     });
 
+
+    /* COUNTER */
+
     if (countElement) {
         countElement.textContent =
             `${visible} proyecto${visible === 1 ? "" : "s"}`;
     }
+
+
+    /* EMPTY STATE */
 
     if (noResults) {
         noResults.hidden = visible !== 0;
