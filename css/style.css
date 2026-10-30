@@ -1325,3 +1325,320 @@ footer > span {
         text-align: center;
     }
 }
+
+
+
+
+
+
+/* ==========================================
+   NYXMODS - SOFTWARE LIBRARY CARD
+========================================== */
+
+.script-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    padding: 18px;
+    overflow: hidden;
+
+    background:
+        linear-gradient(145deg, #15131c 0%, #100f15 100%);
+
+    border: 1px solid rgba(168, 85, 247, 0.16);
+    border-radius: 18px;
+
+    transition:
+        border-color 0.25s ease,
+        transform 0.25s ease,
+        background 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+.script-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(168, 85, 247, 0.42);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.22);
+}
+
+.script-card[hidden] {
+    display: none !important;
+}
+
+/* HEADER */
+
+.script-card-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-width: 0;
+}
+
+/* LOGO */
+
+.script-card-icon {
+    position: relative;
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+
+    width: 76px;
+    height: 76px;
+
+    overflow: hidden;
+    border: 1px solid rgba(168, 85, 247, 0.25);
+    border-radius: 15px;
+
+    background: #09090d;
+}
+
+.script-card-icon img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.script-card-icon.icon-fallback {
+    color: #a855f7;
+    font-size: 32px;
+    font-weight: 900;
+    background: #171020;
+}
+
+/* INFORMATION */
+
+.script-card-info {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    min-width: 0;
+    gap: 5px;
+}
+
+.script-card-badges {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.script-status-badge,
+.script-category-badge {
+    display: inline-flex;
+    align-items: center;
+    width: fit-content;
+
+    padding: 5px 8px;
+    border-radius: 6px;
+
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+}
+
+.script-status-badge {
+    color: #9cff52;
+    background: rgba(132, 255, 35, 0.08);
+    border: 1px solid rgba(132, 255, 35, 0.16);
+}
+
+.script-category-badge {
+    color: #d2a2ff;
+    background: rgba(168, 85, 247, 0.1);
+    border: 1px solid rgba(168, 85, 247, 0.2);
+}
+
+.script-card-info h3 {
+    margin: 0;
+    overflow-wrap: anywhere;
+
+    color: #f5f2fa;
+    font-size: 17px;
+    font-weight: 800;
+    line-height: 1.3;
+}
+
+.script-card-subtitle {
+    color: #77717f;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 1.3px;
+}
+
+/* INDICATOR */
+
+.script-card-indicator {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+
+    width: 31px;
+    height: 31px;
+
+    border: 1px solid rgba(168, 85, 247, 0.2);
+    border-radius: 9px;
+
+    color: #bd82f5;
+    background: rgba(168, 85, 247, 0.06);
+
+    font-size: 17px;
+}
+
+/* DIVIDER */
+
+.script-card-divider {
+    height: 1px;
+    margin: 17px 0;
+
+    background: linear-gradient(
+        90deg,
+        rgba(168, 85, 247, 0.3),
+        rgba(255, 255, 255, 0.06),
+        transparent
+    );
+}
+
+/* DESCRIPTION */
+
+.script-card-description {
+    display: -webkit-box;
+    margin: 0;
+
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+
+    color: #a9a3b0;
+    font-size: 13px;
+    line-height: 1.65;
+}
+
+/* TAGS */
+
+.script-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    margin-top: 14px;
+}
+
+.script-tag {
+    padding: 6px 9px;
+
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 7px;
+
+    color: #bdb6c5;
+    background: rgba(255, 255, 255, 0.035);
+
+    font-size: 10px;
+    font-weight: 650;
+}
+
+/* ACTIONS */
+
+.script-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 9px;
+    margin-top: 19px;
+}
+
+.copy-script-btn,
+.more-info-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    min-width: 0;
+    min-height: 43px;
+    padding: 10px;
+
+    border-radius: 10px;
+
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 750;
+    text-align: center;
+    text-decoration: none;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.copy-script-btn {
+    border: 1px solid transparent;
+    color: #fff;
+    background: linear-gradient(110deg, #8500ed, #a000ff);
+}
+
+.copy-script-btn:hover {
+    background: linear-gradient(110deg, #9900ff, #b52aff);
+    transform: translateY(-1px);
+}
+
+.copy-script-btn.copied {
+    color: #10150b;
+    background: #8ce83c;
+}
+
+.more-info-btn {
+    border: 1px solid rgba(168, 85, 247, 0.3);
+    color: #d4a4ff;
+    background: rgba(168, 85, 247, 0.055);
+}
+
+.more-info-btn:hover {
+    border-color: rgba(168, 85, 247, 0.65);
+    background: rgba(168, 85, 247, 0.13);
+    transform: translateY(-1px);
+}
+
+/* MOBILE */
+
+@media (max-width: 480px) {
+    .script-card {
+        padding: 15px;
+        border-radius: 16px;
+    }
+
+    .script-card-icon {
+        width: 65px;
+        height: 65px;
+        border-radius: 12px;
+    }
+
+    .script-card-header {
+        gap: 11px;
+    }
+
+    .script-card-info h3 {
+        font-size: 15px;
+    }
+
+    .script-card-description {
+        font-size: 12px;
+    }
+
+    .script-actions {
+        grid-template-columns: 1fr 1fr;
+        gap: 7px;
+    }
+
+    .copy-script-btn,
+    .more-info-btn {
+        min-height: 42px;
+        padding: 8px 5px;
+        font-size: 10px;
+    }
+}
+
