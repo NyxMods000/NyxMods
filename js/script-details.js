@@ -46,6 +46,7 @@ async function loadDetails() {
         ]);
 
         loaderCode = loader.trim();
+        document.getElementById("loaderCode").textContent = loaderCode;
 
         document.title = `${title.trim()} | NyxMods`;
 
