@@ -1,9 +1,12 @@
 
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#08080b">
+    <meta name="description" content="Información y detalles de proyectos NyxMods.">
 
     <title>Proyecto | NyxMods</title>
 
@@ -12,59 +15,143 @@
 </head>
 
 <body>
-    <header class="navbar">
-        <a href="index.html" class="logo">NyxMods</a>
 
-        <nav>
-            <a href="index.html">Inicio</a>
-            <a href="index.html#explore">Explorar</a>
+    <header class="navbar">
+        <a href="index.html" class="brand">
+            <img src="assets/images/logo.png" alt="NyxMods">
+            <span>NyxMods</span>
+        </a>
+
+        <nav class="nav-links">
+            <a href="index.html#inicio">Inicio</a>
+            <a href="index.html#explorar">Explorar</a>
         </nav>
+
+        <a href="index.html#explorar" class="nav-cta">
+            Catálogo <span>↗</span>
+        </a>
     </header>
 
     <main class="details-container">
-        <a href="index.html#explore" class="back-link">
-            ← Volver al catálogo
+
+        <a href="index.html#explorar" class="back-link">
+            <span>←</span> Volver al catálogo
         </a>
 
-        <div id="detailsLoading">
+        <div id="detailsLoading" class="details-message">
+            <span class="loading-indicator"></span>
             Cargando proyecto...
         </div>
 
-        <section id="projectDetails" hidden>
-            <img id="projectImage" class="details-image" alt="">
+        <p id="detailsError" class="details-error" hidden>
+            No se pudo cargar este proyecto. Comprueba el enlace e inténtalo de nuevo.
+        </p>
 
-            <div class="details-content">
-                <div id="projectTags" class="script-tags"></div>
+        <section id="projectDetails" class="project-details" hidden>
 
-                <h1 id="projectTitle"></h1>
+            <!-- CABECERA DEL PROYECTO -->
+            <div class="project-hero">
+
+                <div class="project-image-wrapper">
+                    <img id="projectImage" class="details-image" alt="">
+                    <div class="image-overlay"></div>
+                    <span class="image-caption">NYXMODS PROJECT</span>
+                </div>
+
+                <div class="project-heading">
+
+                    <div class="project-meta">
+                        <span class="project-status">
+                            <i></i> DISPONIBLE
+                        </span>
+
+                        <span class="project-type">
+                            PROYECTO NYXMODS
+                        </span>
+                    </div>
+
+                    <h1 id="projectTitle"></h1>
+
+                    <div id="projectTags" class="details-tags"></div>
+
+                </div>
+
+            </div>
+
+            <!-- DESCRIPCIÓN -->
+            <section class="description-panel">
+
+                <div class="panel-heading">
+                    <span class="panel-icon">✦</span>
+                    <h2>Acerca del proyecto</h2>
+                </div>
 
                 <p id="projectDescription"></p>
 
-                <button id="copyLoader" class="copy-script-btn">
-                    Copiar script
+            </section>
+
+            <!-- LOADER -->
+            <section class="loader-section">
+
+                <div class="loader-heading">
+
+                    <div>
+                        <span class="eyebrow">EJECUCIÓN</span>
+                        <h2>Script Loader</h2>
+                        <p>Utiliza el botón para copiar el código.</p>
+                    </div>
+
+                    <span class="loader-file">loader.lua</span>
+
+                </div>
+
+                <div class="loader-panel">
+
+                    <div class="loader-toolbar">
+                        <div class="window-dots">
+                            <i></i>
+                            <i></i>
+                            <i></i>
+                        </div>
+
+                        <span>NYXMODS / LOADER</span>
+
+                        <span class="file-extension">LUA</span>
+                    </div>
+
+                    <pre class="loader-code"><code id="loaderCode">Cargando código...</code></pre>
+
+                    <div class="loader-footer">
+                        <span><i></i> Código del proyecto</span>
+                        <span>loader.lua</span>
+                    </div>
+
+                </div>
+
+                <button id="copyLoader" class="details-copy-button" type="button">
+                    <span>▣</span>
+                    <span id="copyLoaderText">Copiar loader</span>
+                    <span class="copy-shortcut">COPY</span>
                 </button>
 
-                <div class="loader-section">
-    <div class="loader-header">
-        <h2>Loader</h2>
-        <span>loader.lua</span>
-    </div>
+            </section>
 
-    <pre class="loader-code"><code id="loaderCode">Cargando código...</code></pre>
-                </div>
-                
-            </div>
         </section>
 
-        <p id="detailsError" hidden>
-            No se pudo cargar este proyecto.
-        </p>
     </main>
 
-    <footer>
-        <p>© <span id="year"></span> NyxMods Universal.</p>
+    <footer class="details-footer">
+        <a href="index.html" class="brand">
+            <img src="assets/images/logo.png" alt="">
+            <span>NyxMods</span>
+        </a>
+
+        <p>Creado con 💜 y 💚</p>
+
+        <span>© <span id="year"></span> NyxMods. Todos los derechos reservados.</span>
     </footer>
 
     <script src="js/script-details.js"></script>
+
 </body>
 </html>
