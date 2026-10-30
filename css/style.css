@@ -709,3 +709,60 @@ footer > span {
         text-align: center;
     }
 }
+
+
+
+
+
+/* MOBILE LAYOUT FIX */
+
+@media (max-width: 800px) {
+
+    .hero {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        min-height: auto;
+        padding: 85px 7% 100px;
+    }
+
+    .hero-content {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .hero-visual {
+        position: relative;
+        width: min(320px, 90%);
+        right: auto;
+        top: auto;
+        transform: none;
+        margin: 55px auto 20px;
+        opacity: 1;
+    }
+
+    .hero-bottom {
+        bottom: 20px;
+    }
+
+    .hero-info {
+        flex-wrap: wrap;
+    }
+
+    .about {
+        text-align: center;
+    }
+
+    .feature {
+        text-align: left;
+    }
+
+    .explore-heading {
+        align-items: flex-start;
+    }
+
+    .explore-decoration {
+        font-size: 90px;
+    }
+}
+
