@@ -164,86 +164,155 @@
 
 
         <!-- EXPLORAR -->
-        <section class="explore section" id="explorar">
+        
+<section class="catalog section" id="explorar">
 
-            <div class="explore-heading">
-                <div>
-                    <span class="eyebrow">02 / EXPLORAR</span>
-                    <h2>¿Qué estás buscando?</h2>
-                    <p>Descubre lo que NyxMods tiene para ofrecerte.</p>
+    <div class="catalog-heading">
+        <span class="eyebrow">02 / BIBLIOTECA</span>
+        <h2>Explora el <span>catálogo.</span></h2>
+        <p>Todos mis scripts y herramientas, organizados en un solo lugar.</p>
+    </div>
+
+    <!-- BUSCADOR -->
+    <div class="catalog-controls">
+
+        <div class="search-box">
+            <span>⌕</span>
+            <input
+                type="search"
+                id="scriptSearch"
+                placeholder="Buscar scripts..."
+                autocomplete="off"
+            >
+            <kbd>SEARCH</kbd>
+        </div>
+
+        <div class="filter-list" id="scriptFilters">
+            <button class="filter-btn active" data-filter="all">Todos</button>
+            <button class="filter-btn" data-filter="universal">Universales</button>
+            <button class="filter-btn" data-filter="games">Juegos</button>
+            <button class="filter-btn" data-filter="tools">Herramientas</button>
+        </div>
+
+    </div>
+
+    <!-- RESULTADOS -->
+    <div class="catalog-meta">
+        <span>CONTENIDO DISPONIBLE</span>
+        <span id="scriptCount">01 PROYECTO</span>
+    </div>
+
+    <div class="catalog-grid" id="scriptGrid">
+
+        <!-- NYXMODS UNIVERSAL -->
+        <article
+            class="script-card"
+            data-category="universal"
+            data-search="nyxmods universal roblox scripts gaming utilities"
+        >
+
+            <div class="script-banner universal-banner">
+                <div class="banner-glow"></div>
+
+                <img
+                    src="assets/images/logo.png"
+                    alt="NyxMods Logo"
+                    class="script-logo"
+                >
+
+                <span class="script-status">
+                    <i></i> DISPONIBLE
+                </span>
+
+                <span class="banner-label">NYXMODS / 001</span>
+            </div>
+
+            <div class="script-content">
+
+                <div class="script-category">
+                    UNIVERSAL <span>•</span> ROBLOX
                 </div>
 
-                <span class="explore-decoration">N.</span>
-            </div>
+                <h3>NyxMods Universal</h3>
 
+                <p>
+                    Una colección de scripts y herramientas
+                    diseñada para ofrecer distintas funcionalidades
+                    en múltiples experiencias de Roblox.
+                </p>
 
-            <div class="content-grid">
+                <div class="script-tags">
+                    <span>Universal</span>
+                    <span>Gaming</span>
+                    <span>Utilities</span>
+                </div>
 
-                <article class="content-card scripts-card">
+                <div class="script-footer">
 
-                    <div class="card-top">
-                        <span class="card-icon">⌘</span>
-                        <span class="card-index">01</span>
+                    <div class="script-version">
+                        <span>PROYECTO</span>
+                        <strong>NYXMODS</strong>
                     </div>
 
-                    <h3>Scripts</h3>
-
-                    <p>
-                        Explora scripts, utilidades y herramientas
-                        desarrolladas para diferentes experiencias.
-                    </p>
-
-                    <a href="#" class="card-link">
-                        Próximamente <span>↗</span>
+                    <a href="#nyxmods-details" class="script-button">
+                        Ver proyecto <span>↗</span>
                     </a>
 
-                </article>
-
-
-                <article class="content-card projects-card">
-
-                    <div class="card-top">
-                        <span class="card-icon">◇</span>
-                        <span class="card-index">02</span>
-                    </div>
-
-                    <h3>Proyectos</h3>
-
-                    <p>
-                        Conoce mis proyectos, experimentos y
-                        desarrollos independientes.
-                    </p>
-
-                    <a href="#" class="card-link">
-                        Próximamente <span>↗</span>
-                    </a>
-
-                </article>
-
-
-                <article class="content-card tools-card">
-
-                    <div class="card-top">
-                        <span class="card-icon">ϟ</span>
-                        <span class="card-index">03</span>
-                    </div>
-
-                    <h3>Herramientas</h3>
-
-                    <p>
-                        Descubre utilidades y recursos creados
-                        para facilitar diferentes tareas.
-                    </p>
-
-                    <a href="#" class="card-link">
-                        Próximamente <span>↗</span>
-                    </a>
-
-                </article>
+                </div>
 
             </div>
 
-        </section>
+        </article>
+
+        <!-- ESPACIO PARA FUTUROS SCRIPTS -->
+        <article class="script-card coming-card" data-category="games"
+            data-search="proximamente juegos">
+
+            <div class="coming-content">
+                <span class="coming-icon">＋</span>
+                <h3>Nuevos proyectos</h3>
+                <p>Más scripts y experiencias llegarán próximamente.</p>
+                <span class="coming-label">EN DESARROLLO</span>
+            </div>
+
+        </article>
+
+    </div>
+
+    <!-- SIN RESULTADOS -->
+    <div class="no-results" id="noResults" hidden>
+        <span>⌕</span>
+        <h3>No encontramos resultados</h3>
+        <p>Prueba con otro nombre o categoría.</p>
+    </div>
+
+    <!-- INFORMACIÓN DEL PROYECTO -->
+    <div class="script-details" id="nyxmods-details">
+
+        <span class="eyebrow">PROYECTO DESTACADO / 001</span>
+
+        <h2>NyxMods <span>Universal.</span></h2>
+
+        <p>
+            El proyecto principal de NyxMods. Reúne diferentes
+            herramientas y funcionalidades para Roblox en una
+            misma plataforma.
+        </p>
+
+        <div class="details-tags">
+            <span>ROBLOX</span>
+            <span>SCRIPTS</span>
+            <span>NYXMODS</span>
+        </div>
+
+        <a href="#inicio" class="button-secondary">
+            Volver al inicio ↑
+        </a>
+
+    </div>
+
+</section>
+        
 
 
         <!-- FINAL BANNER -->
