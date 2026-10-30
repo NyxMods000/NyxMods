@@ -1,3 +1,4 @@
+
 const CONFIG = {
     owner: "nyxmods000",
     repo: "NyxMods",
@@ -15,11 +16,29 @@ const grid = document.getElementById("scriptGrid");
 const searchInput = document.getElementById("scriptSearch");
 const countElement = document.getElementById("scriptCount");
 const noResults = document.getElementById("noResults");
-const loading = document.getElementById("scriptLoading");
 
 let projects = [];
 let activeFilter = "all";
 
+// Categorías permitidas
+const CATEGORIES = {
+    "universal": {
+        filter: "universal",
+        label: "Universal"
+    },
+
+    "juegos": {
+        filter: "games",
+        label: "Juegos"
+    },
+
+    "herramientas": {
+        filter: "tools",
+        label: "Herramientas"
+    }
+};
+
+// Inicialización
 document.addEventListener("DOMContentLoaded", async () => {
     const year = document.getElementById("year");
 
@@ -27,84 +46,82 @@ document.addEventListener("DOMContentLoaded", async () => {
         year.textContent = new Date().getFullYear();
     }
 
+    setupFilters();
     await loadProjects();
-
-    searchInput?.addEventListener("input", filterProjects);
-
-    document.querySelectorAll("[data-filter]").forEach(button => {
-        button.addEventListener("click", () => {
-            activeFilter = button.dataset.filter;
-
-            document.querySelectorAll("[data-filter]").forEach(item => {
-                item.classList.toggle("active", item === button);
-            });
-
-            filterProjects();
-        });
-    });
 });
 
+// Construir URL de archivos
+function getFileURL(folder, filename) {
+    return `${RAW_URL}/${CONFIG.folder}/${encodeURIComponent(folder)}/${filename}`;
+}
+
+// Obtener contenido de un archivo
 async function getText(url) {
     const response = await fetch(url);
 
     if (!response.ok) {
-        throw new Error(`No se pudo cargar: ${url}`);
+        throw new Error(`Error HTTP ${response.status}: ${url}`);
     }
 
     return response.text();
 }
 
-function getFileURL(folder, filename) {
-    return `${RAW_URL}/${CONFIG.folder}/${encodeURIComponent(folder)}/${filename}`;
-}
-
+// Cargar información de un proyecto
 async function loadProject(folder) {
-    const [title, description, tags, loader] = await Promise.all([
+    const [
+        title,
+        description,
+        category,
+        tags,
+        loader
+    ] = await Promise.all([
         getText(getFileURL(folder, "title.txt")),
         getText(getFileURL(folder, "description.txt")),
+        getText(getFileURL(folder, "categoria.txt")),
         getText(getFileURL(folder, "tags.txt")),
         getText(getFileURL(folder, "loader.lua"))
     ]);
+
+    const categoryName = category.trim();
+    const normalizedCategory = categoryName.toLowerCase();
+
+    const categoryData = CATEGORIES[normalizedCategory];
+
+    if (!categoryData) {
+        throw new Error(
+            `Categoría inválida en "${folder}": ${categoryName}`
+        );
+    }
 
     const tagList = tags
         .split(",")
         .map(tag => tag.trim())
         .filter(Boolean);
 
-    const normalizedTags = tagList.map(tag => tag.toLowerCase());
-
-    let category = "tools";
-
-    if (normalizedTags.includes("universal")) {
-        category = "universal";
-    } else if (
-        normalizedTags.includes("games") ||
-        normalizedTags.includes("game")
-    ) {
-        category = "games";
-    } else if (
-        normalizedTags.includes("tools") ||
-        normalizedTags.includes("tool")
-    ) {
-        category = "tools";
-    }
-
     return {
         folder,
         title: title.trim(),
         description: description.trim(),
+        category: categoryData.filter,
+        categoryName: categoryData.label,
         tags: tagList,
-        loader: loader.trim(),
-        category
+        loader: loader.trim()
     };
 }
 
+// Obtener todos los proyectos de GitHub
 async function loadProjects() {
     try {
+        if (grid) {
+            grid.textContent = "Cargando proyectos...";
+        }
+
         const response = await fetch(API_URL);
 
         if (!response.ok) {
-            throw new Error("No se pudo consultar el repositorio.");
+            throw new Error(
+                `GitHub API respondió con HTTP ${response.status}`
+            );
         }
 
         const directories = await response.json();
@@ -117,33 +134,56 @@ async function loadProjects() {
             folders.map(folder => loadProject(folder.name))
         );
 
-        projects = results
-            .filter(result => result.status === "fulfilled")
-            .map(result => result.value);
+        projects = [];
+
+        results.forEach((result, index) => {
+            if (result.status === "fulfilled") {
+                projects.push(result.value);
+            } else {
+                console.error(
+                    `Error cargando ${folders[index].name}:`,
+                    result.reason
+                );
+            }
+        });
 
         renderProjects();
 
     } catch (error) {
-        console.error("NyxMods:", error);
+        console.error("NyxMods - Error cargando proyectos:", error);
 
-        grid.textContent = "No se pudieron cargar los proyectos.";
-        countElement.textContent = "Error al cargar";
-    } finally {
-        if (loading) loading.remove();
+        if (grid) {
+            grid.textContent =
+                "No se pudieron cargar los proyectos. Inténtalo más tarde.";
+        }
+
+        if (countElement) {
+            countElement.textContent = "Error al cargar";
+        }
+
+        if (noResults) {
+            noResults.hidden = true;
+        }
     }
 }
 
+// Crear tarjeta de proyecto
 function createProjectCard(project) {
     const card = document.createElement("article");
+
     card.className = "script-card";
     card.dataset.category = project.category;
+
     card.dataset.search = [
         project.title,
         project.description,
+        project.categoryName,
         ...project.tags
     ].join(" ").toLowerCase();
 
+    // Imagen
     const image = document.createElement("img");
+
     image.src = getFileURL(project.folder, "target-image.png");
     image.alt = project.title;
     image.className = "script-card-image";
@@ -153,29 +193,48 @@ function createProjectCard(project) {
         image.remove();
     };
 
+    // Contenido
     const content = document.createElement("div");
     content.className = "script-card-content";
 
+    // Categoría
+    const category = document.createElement("span");
+
+    category.className = "script-category-badge";
+    category.textContent = project.categoryName;
+
+    // Título
     const title = document.createElement("h3");
+
     title.textContent = project.title;
 
+    // Descripción
     const description = document.createElement("p");
+
     description.textContent = project.description;
 
+    // Etiquetas
     const tags = document.createElement("div");
+
     tags.className = "script-tags";
 
     project.tags.forEach(tag => {
         const element = document.createElement("span");
+
         element.className = "script-tag";
         element.textContent = tag;
+
         tags.appendChild(element);
     });
 
+    // Botones
     const actions = document.createElement("div");
+
     actions.className = "script-actions";
 
+    // Copiar loader
     const copyButton = document.createElement("button");
+
     copyButton.className = "copy-script-btn";
     copyButton.textContent = "Copiar script";
 
@@ -188,36 +247,83 @@ function createProjectCard(project) {
             setTimeout(() => {
                 copyButton.textContent = "Copiar script";
             }, 1800);
+
         } catch (error) {
-            console.error(error);
+            console.error("Error copiando loader:", error);
+
             copyButton.textContent = "Error al copiar";
+
+            setTimeout(() => {
+                copyButton.textContent = "Copiar script";
+            }, 1800);
         }
     });
 
+    // Más información
     const infoLink = document.createElement("a");
+
     infoLink.className = "more-info-btn";
     infoLink.textContent = "Más información";
-    infoLink.href = `script.html?id=${encodeURIComponent(project.folder)}`;
 
+    infoLink.href =
+        `script.html?id=${encodeURIComponent(project.folder)}`;
+
+    // Construcción
     actions.append(copyButton, infoLink);
-    content.append(title, description, tags, actions);
+
+    content.append(
+        category,
+        title,
+        description,
+        tags,
+        actions
+    );
+
     card.append(image, content);
 
     return card;
 }
 
+// Mostrar proyectos
 function renderProjects() {
+    if (!grid) return;
+
     grid.replaceChildren();
 
     projects.forEach(project => {
-        grid.appendChild(createProjectCard(project));
+        const card = createProjectCard(project);
+
+        grid.appendChild(card);
     });
 
     filterProjects();
 }
 
+// Configurar filtros
+function setupFilters() {
+    document.querySelectorAll("[data-filter]").forEach(button => {
+        button.addEventListener("click", () => {
+            activeFilter = button.dataset.filter;
+
+            document.querySelectorAll("[data-filter]").forEach(item => {
+                item.classList.toggle(
+                    "active",
+                    item === button
+                );
+            });
+
+            filterProjects();
+        });
+    });
+
+    searchInput?.addEventListener("input", filterProjects);
+}
+
+// Buscar y filtrar proyectos
 function filterProjects() {
-    const query = searchInput?.value.toLowerCase().trim() || "";
+    const query =
+        searchInput?.value.toLowerCase().trim() || "";
+
     let visible = 0;
 
     document.querySelectorAll(".script-card").forEach(card => {
@@ -232,11 +338,17 @@ function filterProjects() {
 
         card.hidden = !show;
 
-        if (show) visible++;
+        if (show) {
+            visible++;
+        }
     });
 
-    countElement.textContent =
-        `${visible} proyecto${visible === 1 ? "" : "s"}`;
+    if (countElement) {
+        countElement.textContent =
+            `${visible} proyecto${visible === 1 ? "" : "s"}`;
+    }
 
-    noResults.hidden = visible !== 0;
+    if (noResults) {
+        noResults.hidden = visible !== 0;
+    }
 }
