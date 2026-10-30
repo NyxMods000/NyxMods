@@ -1,0 +1,15 @@
+Un script diseñado para automatizar la progresión en +1 Speed Monkey Scape, con herramientas de autofarm, mejoras automáticas y personalización del movimiento para avanzar más rápido en el juego.
+
+Características:
+
+- Auto Wins: Teletransportación automática para conseguir Wins según tu mundo y progreso.
+- Auto Speed: Automatiza el movimiento para generar velocidad.
+- Auto Rebirth: Realiza Rebirths automáticamente al cumplir los requisitos.
+- Auto Shards: Recolecta automáticamente los Sunken Shards.
+- Auto Upgrades: Compra automáticamente las mejores mejoras disponibles según tus Wins.
+- WalkSpeed: Personaliza la velocidad de movimiento.
+- JumpPower: Ajusta la potencia del salto.
+
+NyxMods | +1 Speed Monkey Scape reúne diferentes funciones de automatización y personalización en una interfaz sencilla e intuitiva.
+
+💜💚 NyxMods Universal — You create the game, I destroy it.
