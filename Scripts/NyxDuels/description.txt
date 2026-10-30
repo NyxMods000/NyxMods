@@ -1,0 +1,7 @@
+NyxDuels es un script desarrollado específicamente para Murderers vs Sheriffs Duels (MvS Duels) de Roblox.
+
+Ofrece una amplia variedad de herramientas para mejorar y personalizar tu experiencia de juego, incluyendo Aimbot, Auto Shoot, Hitbox Expansion, ESP, Tp Kill y recolección automática de Orbs.
+
+Cuenta con una interfaz moderna desarrollada con WindUI, múltiples opciones de configuración y funciones diseñadas específicamente para MvS Duels.
+
+💚💜 Desarrollado por NyxMods.
