@@ -1,0 +1,13 @@
+Un script diseñado para mejorar y automatizar tu experiencia en Vehicle Legends. Incluye herramientas de modificación de vehículos y funciones de autofarm para facilitar las carreras y optimizar el rendimiento de tu automóvil.
+
+Características:
+
+- Vehicle Mods: Modifica las propiedades y el rendimiento de tu vehículo.
+- Mod Presets: Aplica configuraciones predefinidas como Full Boost.
+- Manual Mod: Personaliza individualmente los parámetros de tu vehículo mediante sliders y toggles.
+- Auto Drive: Conduce automáticamente en una dirección y distancia configurables.
+- Auto Race: Automatiza las carreras seleccionadas mediante el recorrido de checkpoints.
+
+NyxMods | Vehicle Legends ofrece distintas opciones de personalización y automatización en una interfaz sencilla e intuitiva.
+
+💜💚 NyxMods Universal — You create the game, I destroy it.

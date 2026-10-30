@@ -1,0 +1,1 @@
+loadstring(game:HttpGet("https://raw.githubusercontent.com/NyxMods000/NyxModsUniversal/refs/heads/main/VehicleLegends.lua"))()
