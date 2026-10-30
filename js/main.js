@@ -211,6 +211,7 @@ async function loadProjects() {
    CREATE PROJECT CARD
 ========================================= */
 
+
 function createProjectCard(project) {
     const card = document.createElement("article");
 
@@ -224,201 +225,153 @@ function createProjectCard(project) {
         ...project.tags
     ].join(" ").toLowerCase();
 
+    // Encabezado
+    const header = document.createElement("div");
+    header.className = "script-card-header";
 
-    /* IMAGE BANNER */
-
-    const banner = document.createElement("div");
-    banner.className = "script-card-banner";
+    // Logo
+    const imageWrapper = document.createElement("div");
+    imageWrapper.className = "script-card-icon";
 
     const image = document.createElement("img");
-
-    image.src = getFileURL(
-        project.folder,
-        "target-image.png"
-    );
-
+    image.src = getFileURL(project.folder, "target-image.png");
     image.alt = project.title;
-    image.className = "script-card-image";
     image.loading = "lazy";
 
     image.onerror = () => {
         image.remove();
-        banner.classList.add("no-image");
+        imageWrapper.classList.add("icon-fallback");
+        imageWrapper.textContent = "N";
     };
 
+    imageWrapper.appendChild(image);
 
-    /* IMAGE OVERLAY */
+    // Información
+    const information = document.createElement("div");
+    information.className = "script-card-info";
 
-    const overlay = document.createElement("div");
-    overlay.className = "script-card-overlay";
+    const badges = document.createElement("div");
+    badges.className = "script-card-badges";
 
-
-    /* CATEGORY */
+    const status = document.createElement("span");
+    status.className = "script-status-badge";
+    status.textContent = "DISPONIBLE";
 
     const category = document.createElement("span");
-
     category.className = "script-category-badge";
     category.textContent = project.categoryName;
 
-
-    /* STATUS */
-
-    const status = document.createElement("span");
-
-    status.className = "script-status-badge";
-
-    const statusDot = document.createElement("span");
-
-    status.append(statusDot, document.createTextNode(" DISPONIBLE"));
-
-
-    banner.append(
-        image,
-        overlay,
-        category,
-        status
-    );
-
-
-    /* CONTENT */
-
-    const content = document.createElement("div");
-
-    content.className = "script-card-content";
-
-
-    /* HEADING */
-
-    const heading = document.createElement("div");
-
-    heading.className = "script-card-heading";
+    badges.append(status, category);
 
     const title = document.createElement("h3");
-
     title.textContent = project.title;
 
-    heading.appendChild(title);
+    const subtitle = document.createElement("span");
+    subtitle.className = "script-card-subtitle";
+    subtitle.textContent = "NYXMODS PROJECT";
 
+    information.append(badges, title, subtitle);
 
-    /* DESCRIPTION */
+    // Icono decorativo
+    const indicator = document.createElement("span");
+    indicator.className = "script-card-indicator";
+    indicator.textContent = "↗";
 
-    const description = document.createElement("p");
+    header.append(imageWrapper, information, indicator);
 
-    description.textContent = project.description;
-
-
-    content.append(
-        heading,
-        description
-    );
-
-
-    /* TAGS */
-
-    if (project.tags.length > 0) {
-        const tags = document.createElement("div");
-
-        tags.className = "script-tags";
-
-        project.tags.forEach(tag => {
-            const element = document.createElement("span");
-
-            element.className = "script-tag";
-            element.textContent = tag;
-
-            tags.appendChild(element);
-        });
-
-        content.appendChild(tags);
-    }
-
-
-    /* DIVIDER */
-
+    // Separador
     const divider = document.createElement("div");
-
     divider.className = "script-card-divider";
 
+    // Descripción
+    const description = document.createElement("p");
+    description.className = "script-card-description";
+    description.textContent = project.description;
 
-    /* ACTIONS */
+    // Etiquetas
+    const tags = document.createElement("div");
+    tags.className = "script-tags";
 
+    project.tags.forEach(tag => {
+        const element = document.createElement("span");
+        element.className = "script-tag";
+        element.textContent = tag;
+        tags.appendChild(element);
+    });
+
+    // Acciones
     const actions = document.createElement("div");
-
     actions.className = "script-actions";
 
-
-    /* COPY BUTTON */
-
+    // Copiar
     const copyButton = document.createElement("button");
-
     copyButton.className = "copy-script-btn";
     copyButton.type = "button";
-    copyButton.textContent = "Copiar script";
+
+    const copyIcon = document.createElement("span");
+    copyIcon.textContent = "▣";
+
+    const copyText = document.createElement("span");
+    copyText.textContent = "Copiar script";
+
+    copyButton.append(copyIcon, copyText);
 
     copyButton.addEventListener("click", async () => {
         try {
             if (!navigator.clipboard?.writeText) {
-                throw new Error("Clipboard API no disponible.");
+                throw new Error("Clipboard API no disponible");
             }
 
             await navigator.clipboard.writeText(project.loader);
 
-            copyButton.textContent = "¡Copiado!";
+            copyText.textContent = "¡Copiado!";
             copyButton.classList.add("copied");
 
             setTimeout(() => {
-                copyButton.textContent = "Copiar script";
+                copyText.textContent = "Copiar script";
                 copyButton.classList.remove("copied");
             }, 1800);
 
         } catch (error) {
             console.error("Error copiando loader:", error);
 
-            copyButton.textContent = "Error al copiar";
+            copyText.textContent = "Error al copiar";
 
             setTimeout(() => {
-                copyButton.textContent = "Copiar script";
+                copyText.textContent = "Copiar script";
             }, 1800);
         }
     });
 
-
-    /* MORE INFORMATION */
-
+    // Más información
     const infoLink = document.createElement("a");
-
     infoLink.className = "more-info-btn";
-    infoLink.textContent = "Más información";
 
     infoLink.href =
         `script.html?id=${encodeURIComponent(project.folder)}`;
 
-    const arrow = document.createElement("span");
+    const infoText = document.createElement("span");
+    infoText.textContent = "Más información";
 
-    arrow.textContent = "↗";
+    const infoIcon = document.createElement("span");
+    infoIcon.textContent = "↗";
 
-    infoLink.appendChild(arrow);
+    infoLink.append(infoText, infoIcon);
 
+    actions.append(copyButton, infoLink);
 
-    /* BUILD ACTIONS */
-
-    actions.append(
-        copyButton,
-        infoLink
-    );
-
-    content.append(
-        divider,
-        actions
-    );
-
+    // Construcción
     card.append(
-        banner,
-        content
+        header,
+        divider,
+        description,
+        tags,
+        actions
     );
 
     return card;
 }
+
 
 
 /* =========================================
