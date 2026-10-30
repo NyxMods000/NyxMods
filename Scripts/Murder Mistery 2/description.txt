@@ -1,0 +1,7 @@
+Este es un script desarrollado específicamente para Murder Mystery 2 de Roblox, que incluye una variedad de funciones y herramientas para los diferentes roles del juego.
+
+Cuenta con ESP para identificar jugadores y objetos, funciones para Sheriff y Murderer, Autofarm de monedas, sistema de selección de jugadores, Fling y mucho más.
+
+El script está diseñado exclusivamente para Murder Mystery 2 y seguirá recibiendo mejoras y nuevas funciones con el tiempo.
+
+💜💚 NyxMods — Scripts hechos para la comunidad.
