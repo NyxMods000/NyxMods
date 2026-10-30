@@ -1,0 +1,139 @@
+
+.script-card {
+    overflow: hidden;
+    border: 1px solid rgba(144, 0, 255, 0.2);
+    border-radius: 16px;
+    background: #111116;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.script-card:hover {
+    transform: translateY(-4px);
+    border-color: #9000ff;
+}
+
+.script-card[hidden] {
+    display: none;
+}
+
+.script-card-image {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    display: block;
+}
+
+.script-card-content {
+    padding: 18px;
+}
+
+.script-card-content h3 {
+    margin: 0 0 10px;
+}
+
+.script-card-content p {
+    color: #aaa;
+    line-height: 1.6;
+}
+
+.script-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    margin: 14px 0;
+}
+
+.script-tag {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 20px;
+    background: rgba(144, 0, 255, 0.15);
+    color: #c18aff;
+    font-size: 12px;
+}
+
+.script-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 18px;
+}
+
+.copy-script-btn,
+.more-info-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 11px 16px;
+    border: 1px solid #9000ff;
+    border-radius: 9px;
+    background: #9000ff;
+    color: white;
+    font: inherit;
+    text-decoration: none;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.more-info-btn {
+    background: transparent;
+    color: #c18aff;
+}
+
+.copy-script-btn:hover,
+.more-info-btn:hover {
+    filter: brightness(1.2);
+}
+
+.details-container {
+    width: min(100% - 32px, 1000px);
+    margin: 50px auto;
+}
+
+.back-link {
+    display: inline-block;
+    margin-bottom: 25px;
+    color: #c18aff;
+    text-decoration: none;
+}
+
+.details-image {
+    width: 100%;
+    max-height: 460px;
+    object-fit: cover;
+    border-radius: 16px;
+    margin-bottom: 25px;
+}
+
+.details-content h1 {
+    margin: 12px 0;
+}
+
+.details-content p {
+    color: #aaa;
+    line-height: 1.8;
+    white-space: pre-line;
+}
+
+#scriptLoading,
+#noResults,
+#detailsLoading,
+#detailsError {
+    color: #aaa;
+    padding: 20px 0;
+}
+
+@media (max-width: 600px) {
+    .script-actions {
+        flex-direction: column;
+    }
+
+    .script-actions > * {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .details-container {
+        margin-top: 30px;
+    }
+}
