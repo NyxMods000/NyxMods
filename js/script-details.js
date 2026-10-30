@@ -16,6 +16,15 @@ const loading = document.getElementById("detailsLoading");
 const details = document.getElementById("projectDetails");
 const errorElement = document.getElementById("detailsError");
 
+const titleElement = document.getElementById("projectTitle");
+const descriptionElement = document.getElementById("projectDescription");
+const imageElement = document.getElementById("projectImage");
+const tagsElement = document.getElementById("projectTags");
+const loaderElement = document.getElementById("loaderCode");
+
+const copyButton = document.getElementById("copyLoader");
+const copyText = document.getElementById("copyLoaderText");
+
 let loaderCode = "";
 
 function getFileURL(filename) {
@@ -26,7 +35,7 @@ async function getText(filename) {
     const response = await fetch(getFileURL(filename));
 
     if (!response.ok) {
-        throw new Error(`No se pudo cargar ${filename}`);
+        throw new Error(`No se pudo cargar ${filename}: HTTP ${response.status}`);
     }
 
     return response.text();
@@ -34,8 +43,8 @@ async function getText(filename) {
 
 async function loadDetails() {
     try {
-        if (!folder) {
-            throw new Error("No se especificó un proyecto.");
+        if (!folder || folder.includes("/") || folder.includes("\\")) {
+            throw new Error("Identificador de proyecto inválido.");
         }
 
         const [title, description, tags, loader] = await Promise.all([
@@ -45,34 +54,42 @@ async function loadDetails() {
             getText("loader.lua")
         ]);
 
+        const projectTitle = title.trim();
+
         loaderCode = loader.trim();
-        document.getElementById("loaderCode").textContent = loaderCode;
 
-        document.title = `${title.trim()} | NyxMods`;
+        // Información
+        document.title = `${projectTitle} | NyxMods`;
+        titleElement.textContent = projectTitle;
+        descriptionElement.textContent = description.trim();
+        loaderElement.textContent = loaderCode;
 
-        document.getElementById("projectTitle").textContent = title.trim();
-        document.getElementById("projectDescription").textContent =
-            description.trim();
+        // Imagen
+        imageElement.src = getFileURL("image.png");
+        imageElement.alt = projectTitle;
 
-        const image = document.getElementById("projectImage");
-        image.src = getFileURL("image.png");
-        image.alt = title.trim();
-
-        image.onerror = () => {
-            image.hidden = true;
+        imageElement.onerror = () => {
+            imageElement.closest(".project-image-wrapper").hidden = true;
         };
 
-        const tagContainer = document.getElementById("projectTags");
+        // Etiquetas
+        tagsElement.replaceChildren();
 
-        tags.split(",").map(tag => tag.trim()).filter(Boolean).forEach(tag => {
-            const element = document.createElement("span");
-            element.className = "script-tag";
-            element.textContent = tag;
-            tagContainer.appendChild(element);
-        });
+        tags.split(",")
+            .map(tag => tag.trim())
+            .filter(Boolean)
+            .forEach(tag => {
+                const element = document.createElement("span");
 
-        details.hidden = false;
+                element.className = "script-tag";
+                element.textContent = tag;
+
+                tagsElement.appendChild(element);
+            });
+
+        // Mostrar proyecto
         loading.hidden = true;
+        details.hidden = false;
 
     } catch (error) {
         console.error("NyxMods:", error);
@@ -82,24 +99,41 @@ async function loadDetails() {
     }
 }
 
-document.getElementById("copyLoader").addEventListener("click", async () => {
-    const button = document.getElementById("copyLoader");
-
+// Copiar loader
+copyButton.addEventListener("click", async () => {
     try {
+        if (!loaderCode) {
+            throw new Error("El loader está vacío.");
+        }
+
+        if (!navigator.clipboard?.writeText) {
+            throw new Error("Clipboard API no disponible.");
+        }
+
         await navigator.clipboard.writeText(loaderCode);
 
-        button.textContent = "¡Copiado!";
+        copyText.textContent = "¡Copiado correctamente!";
+        copyButton.classList.add("copied");
 
         setTimeout(() => {
-            button.textContent = "Copiar script";
+            copyText.textContent = "Copiar loader";
+            copyButton.classList.remove("copied");
         }, 1800);
 
     } catch (error) {
-        console.error(error);
-        button.textContent = "Error al copiar";
+        console.error("NyxMods - Error copiando:", error);
+
+        copyText.textContent = "No se pudo copiar";
+
+        setTimeout(() => {
+            copyText.textContent = "Copiar loader";
+        }, 1800);
     }
 });
 
-document.getElementById("year").textContent = new Date().getFullYear();
+// Año
+document.getElementById("year").textContent =
+    new Date().getFullYear();
 
+// Iniciar
 loadDetails();
