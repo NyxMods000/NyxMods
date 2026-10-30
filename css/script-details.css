@@ -137,3 +137,46 @@
         margin-top: 30px;
     }
 }
+
+
+.loader-section {
+    margin-top: 30px;
+    width: 100%;
+}
+
+.loader-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+
+.loader-header h2 {
+    font-size: 18px;
+    margin: 0;
+}
+
+.loader-header span {
+    color: #888;
+    font-size: 13px;
+}
+
+.loader-code {
+    background: #0b0b10;
+    border: 1px solid rgba(144, 0, 255, 0.25);
+    border-radius: 12px;
+    padding: 20px;
+    overflow-x: auto;
+    max-height: 500px;
+    overflow-y: auto;
+    line-height: 1.6;
+    font-size: 13px;
+    color: #c9c9d1;
+    tab-size: 4;
+}
+
+.loader-code code {
+    font-family: "JetBrains Mono", "Fira Code", monospace;
+    white-space: pre;
+}
+
