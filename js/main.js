@@ -1,6 +1,13 @@
 
 document.addEventListener("DOMContentLoaded", () => {
 
-    console.log("NyxMods website initialized 💜💚");
+    // Año automático del footer
+    const year = document.getElementById("year");
+
+    if (year) {
+        year.textContent = new Date().getFullYear();
+    }
+
+    console.log("NyxMods initialized 💜💚");
 
 });
