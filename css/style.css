@@ -1325,3 +1325,291 @@ footer > span {
         text-align: center;
     }
 }
+
+
+/* =====================================
+   NYXMODS - PREMIUM SCRIPT CARDS
+===================================== */
+
+.catalog-grid {
+    align-items: stretch;
+}
+
+/* Tarjeta principal */
+.script-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    overflow: hidden;
+    background: linear-gradient(145deg, #15131b, #0e0d12);
+    border: 1px solid rgba(168, 85, 247, 0.13);
+    border-radius: 22px;
+    transition:
+        transform 0.3s ease,
+        border-color 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+.script-card[hidden] {
+    display: none !important;
+}
+
+.script-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(168, 85, 247, 0.5);
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.3),
+                0 0 25px rgba(147, 51, 234, 0.08);
+}
+
+/* Imagen */
+.script-card-banner {
+    position: relative;
+    width: 100%;
+    height: 205px;
+    overflow: hidden;
+    background:
+        radial-gradient(circle at 50% 40%, #29203b, #0b0b10 75%);
+}
+
+.script-card-image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.script-card:hover .script-card-image {
+    transform: scale(1.045);
+}
+
+.script-card-banner.no-image::after {
+    content: "NYXMODS";
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    color: rgba(255, 255, 255, 0.12);
+    font-size: 30px;
+    font-weight: 900;
+    letter-spacing: 7px;
+}
+
+.script-card-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.12),
+        transparent 35%,
+        rgba(12, 10, 17, 0.8)
+    );
+    pointer-events: none;
+}
+
+/* Categoría flotante */
+.script-category-badge {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    z-index: 2;
+    padding: 7px 12px;
+    border: 1px solid rgba(168, 85, 247, 0.3);
+    border-radius: 9px;
+    background: rgba(14, 10, 22, 0.82);
+    color: #d8a5ff;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    backdrop-filter: blur(12px);
+}
+
+/* Estado */
+.script-status-badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 7px 10px;
+    border: 1px solid rgba(132, 255, 35, 0.2);
+    border-radius: 9px;
+    background: rgba(10, 18, 10, 0.82);
+    color: #9cff47;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 0.6px;
+    backdrop-filter: blur(12px);
+}
+
+.script-status-badge span {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #8cff32;
+    box-shadow: 0 0 9px #8cff32;
+}
+
+/* Contenido */
+.script-card-content {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    padding: 20px;
+}
+
+.script-card-heading {
+    margin-bottom: 9px;
+}
+
+.script-card-heading h3 {
+    margin: 0;
+    color: #f5f2fa;
+    font-size: 20px;
+    font-weight: 800;
+    line-height: 1.3;
+}
+
+.script-card-content > p {
+    margin: 0;
+    color: #a6a1ae;
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+/* Etiquetas */
+.script-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    margin-top: 17px;
+}
+
+.script-tag {
+    padding: 7px 10px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.035);
+    color: #bcb5c7;
+    font-size: 10px;
+    font-weight: 700;
+    transition: 0.2s ease;
+}
+
+.script-tag:hover {
+    border-color: rgba(132, 255, 35, 0.3);
+    color: #a5ff57;
+}
+
+/* Separador */
+.script-card-divider {
+    height: 1px;
+    margin: 20px 0 15px;
+    background: linear-gradient(
+        90deg,
+        rgba(168, 85, 247, 0.3),
+        rgba(255, 255, 255, 0.04),
+        transparent
+    );
+}
+
+/* Botones */
+.script-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 9px;
+    margin-top: auto;
+}
+
+.copy-script-btn,
+.more-info-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-width: 0;
+    min-height: 44px;
+    padding: 10px 12px;
+    border-radius: 11px;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 750;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition:
+        transform 0.2s ease,
+        background 0.2s ease,
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.copy-script-btn {
+    border: 1px solid transparent;
+    background: linear-gradient(110deg, #8b00f5, #a000ff);
+    color: white;
+}
+
+.copy-script-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(151, 0, 255, 0.25);
+}
+
+.copy-script-btn.copied {
+    background: linear-gradient(110deg, #4dba19, #83e52c);
+    color: #10150b;
+}
+
+.more-info-btn {
+    border: 1px solid rgba(168, 85, 247, 0.35);
+    background: rgba(168, 85, 247, 0.06);
+    color: #d3a2ff;
+}
+
+.more-info-btn:hover {
+    transform: translateY(-2px);
+    border-color: #a855f7;
+    background: rgba(168, 85, 247, 0.14);
+}
+
+.more-info-btn span {
+    font-size: 15px;
+}
+
+/* Adaptación móvil */
+@media (max-width: 480px) {
+    .script-card {
+        border-radius: 19px;
+    }
+
+    .script-card-banner {
+        height: 185px;
+    }
+
+    .script-card-content {
+        padding: 17px;
+    }
+
+    .script-card-heading h3 {
+        font-size: 18px;
+    }
+
+    .script-card-content > p {
+        font-size: 13px;
+    }
+
+    .script-actions {
+        grid-template-columns: 1fr;
+    }
+
+    .copy-script-btn,
+    .more-info-btn {
+        min-height: 45px;
+        font-size: 13px;
+    }
+}
+
